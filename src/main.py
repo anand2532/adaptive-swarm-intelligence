@@ -37,8 +37,10 @@ def train(config, output_dir, checkpoints_dir, visualize=False):
         num_drones=config.world.num_drones,
         num_buildings=config.world.num_buildings
     )
+
+    state_dim = 15  # position(3) + velocity(3) + obstacle_info(4) + target_info(4) + battery(1)
     
-    state_dim = 13  # position(3) + velocity(3) + obstacle_info(4) + battery(1) + status(2)
+    # state_dim = 13  # position(3) + velocity(3) + obstacle_info(4) + battery(1) + status(2)
     action_dim = 3  # velocity vector (3D)
     
     controller = HybridController(
@@ -89,8 +91,12 @@ def train(config, output_dir, checkpoints_dir, visualize=False):
         )
         
         # Save checkpoints
+        # if episode % config.training.save_freq == 0:
+        #     checkpoint_path = checkpoints_dir / f'model_episode_{episode}.pt'
+        #     controller.save_agents(checkpoint_path)
+        # Inside train function
         if episode % config.training.save_freq == 0:
-            checkpoint_path = checkpoints_dir / f'model_episode_{episode}.pt'
+            checkpoint_path = str(checkpoints_dir)  # Convert to string
             controller.save_agents(checkpoint_path)
         
         # Save metrics
