@@ -84,12 +84,32 @@ class MetricsTracker:
             'avg_completion_time': np.mean([ep.completion_time for ep in self.episodes])
         }
 
+    # def save_metrics(self, filename: str) -> None:
+    #     """Save metrics to file"""
+    #     metrics_data = {
+    #         'episodes': [vars(ep) for ep in self.episodes],
+    #         'statistics': self.get_statistics()
+    #     }
+    #     with open(filename, 'w') as f:
+    #         json.dump(metrics_data, f, indent=4)
+
     def save_metrics(self, filename: str) -> None:
         """Save metrics to file"""
         metrics_data = {
-            'episodes': [vars(ep) for ep in self.episodes],
-            'statistics': self.get_statistics()
+            'episodes': [
+                {
+                    'episode_id': ep.episode_id,
+                    'steps': ep.steps,
+                    'total_reward': float(ep.total_reward),  # Convert numpy float to native float
+                    'coverage_achieved': float(ep.coverage_achieved),
+                    'collisions': ep.collisions,
+                    'mission_success': bool(ep.mission_success),  # Convert numpy bool to native bool
+                    'completion_time': float(ep.completion_time)
+                } for ep in self.episodes
+            ],
+            'statistics': {k: float(v) for k, v in self.get_statistics().items()}  # Convert all values to native float
         }
+        
         with open(filename, 'w') as f:
             json.dump(metrics_data, f, indent=4)
 
