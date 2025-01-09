@@ -27,8 +27,8 @@ rl:
   hidden_dim: 256
 
 training:
-  num_episodes: 1000
-  max_steps: 1000
+  num_episodes: 200
+  max_steps: 500
   target_coverage: 0.9
   update_target_freq: 100
   save_freq: 50

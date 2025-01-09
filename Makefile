@@ -27,7 +27,7 @@ clean:
 	find . -type d -name "__pycache__" -exec rm -r {} +
 	find . -type f -name "*.pyc" -delete
 	rm -rf build/ dist/ .coverage htmlcov/ .pytest_cache/
-	rm -rf venv/
+	# rm -rf venv/
 
 lint:
 	pylint src/ tests/
@@ -36,5 +36,5 @@ lint:
 format:
 	black src/ tests/
 
-setup: venv install
+setup: install
 	@echo "Setup complete. Don't forget to activate your virtual environment!"
